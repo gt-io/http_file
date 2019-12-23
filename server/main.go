@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -14,12 +15,17 @@ func main() {
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
+	
+	log.Println("new upload file")
 	file, header, err := r.FormFile("myFile")
 	if err != nil {
 		fmt.Fprintln(w, err)
 		return
 	}
 	defer file.Close()
+
+	log.Println("upload start :", header.Filename)
+	start := time.Now()
 
 	out, err := os.Create(header.Filename)
 	if err != nil {
@@ -36,4 +42,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "File uploaded successfully: ")
 	fmt.Fprintf(w, header.Filename)
+
+	log.Println("upload finish :", header.Filename, time.Since(start))
+
 }
