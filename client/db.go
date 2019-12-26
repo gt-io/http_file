@@ -2,14 +2,16 @@ package main
 
 import (
 	"database/sql"
+	"sync"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var db *sql.DB
+var lo sync.RWMutex
 
-func InitDB(path string) error {
+func initDB(path string) error {
 	database, err := sql.Open("sqlite3", path)
 	if err != nil {
 		return err
@@ -24,7 +26,10 @@ func InitDB(path string) error {
 	return nil
 }
 
-func AddData(path string, md5 string, date time.Time) error {
+func addData(path string, md5 string, date time.Time) error {
+	lo.Lock()
+	defer lo.Unlock()
+
 	statement, _ := db.Prepare("INSERT INTO files (pid, md5,regdate) VALUES (?, ?, ?)")
 	if _, err := statement.Exec(path, md5, date); err != nil {
 		return err
@@ -32,9 +37,11 @@ func AddData(path string, md5 string, date time.Time) error {
 	return nil
 }
 
-func ExistData(path string) (bool, error) {
-	var exist int
+func existData(path string) (bool, error) {
+	lo.RLock()
+	defer lo.RUnlock()
 
+	var exist int
 	rows, _ := db.Query("SELECT EXISTS(SELECT * FROM files WHERE pid = ?)", path)
 
 	for rows.Next() {
@@ -44,7 +51,9 @@ func ExistData(path string) (bool, error) {
 	return (exist == 1), nil
 }
 
-func DelData(path string) error {
+func delData(path string) error {
+	lo.Lock()
+	defer lo.Unlock()
 
 	statement, _ := db.Prepare("DELETE FROM files WHERE pid = ?")
 	if _, err := statement.Exec(path); err != nil {
