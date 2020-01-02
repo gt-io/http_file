@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 func upload(path string) error {
@@ -21,10 +22,12 @@ func upload(path string) error {
 			log.Println("multipart CreateFormFile error", err)
 			return
 		}
+
+		var file *os.File
+
 		log.Println("file open start", path)
-		file, err := os.Open(path)
+		file, err = openFile(path, time.Hour)
 		if err != nil {
-			log.Println("upload file os.Open error", err, path)
 			return
 		}
 		defer file.Close()

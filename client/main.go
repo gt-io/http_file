@@ -1,7 +1,7 @@
 package main
 
 import (
-	"flag"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -21,6 +21,17 @@ type program struct {
 }
 
 func main() {
+	// init log
+	ex, _ := os.Executable()
+	fpLog, err := os.OpenFile(filepath.Dir(ex)+"/watcher.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer fpLog.Close()
+
+	// 파일과 화면에 같이 출력하기 위해 MultiWriter 생성
+	log.SetOutput(io.MultiWriter(fpLog, os.Stdout))
+
 	prg := &program{}
 
 	// Call svc.Run to start your program/service.
@@ -38,10 +49,11 @@ func (p *program) Init(env svc.Environment) error {
 		panic(err)
 	}
 
-	flag.StringVar(&url, "url", "http://localhost:8080/upload", "upload path")
-	flag.StringVar(&p.path, "path", "", "watch path")
-
-	flag.Parse()
+	var err error
+	url, p.path, err = loadConfig(filepath.Dir(ex) + "/conf.json")
+	if err != nil {
+		panic(err)
+	}
 
 	log.Println("start..", url, p.path)
 

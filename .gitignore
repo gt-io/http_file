@@ -1,3 +1,8 @@
 server/server
 client/data.db
 client/client
+server/server.exe
+client/data.db.lock
+client/client.exe
+client/conf.json
+client/watcher.exe
