@@ -19,7 +19,9 @@ func main() {
 	flag.Parse()
 	log.Println("save file path", dstFolder)
 
+	http.Handle("/", http.FileServer(http.Dir(dstFolder)))
 	http.HandleFunc("/upload", uploadHandler) // Display a form for user to upload file
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
