@@ -21,6 +21,7 @@ func checkExistFile(path string) error {
 
 	for _, file := range files {
 		if file.IsDir() {
+			checkExistFile(path + "/" + file.Name())
 			continue
 		}
 		fn := path + "/" + file.Name()
@@ -67,12 +68,19 @@ func watchFolder(path string) error {
 				}
 				log.Println("event:", event)
 				if event.Op&fsnotify.Create == fsnotify.Create {
-					log.Println("create file:", event.Name)
 					fn := event.Name
 
-					// check file exist
-					if info, err := os.Stat(fn); os.IsNotExist(err) || info.IsDir() {
-						log.Fatalln("file not exist", fn, os.IsNotExist(err))
+					info, err := os.Stat(fn)
+					if os.IsNotExist(err) {
+						log.Println("file not exist", fn, os.IsNotExist(err))
+						continue
+					}
+					if info.IsDir() {
+						err = watcher.Add(fn)
+						if err != nil {
+							log.Fatal(err)
+						}
+						log.Println("watch start folder :", fn)
 						continue
 					}
 
@@ -108,14 +116,28 @@ func watchFolder(path string) error {
 		}
 	}()
 
-	err = watcher.Add(path)
-	if err != nil {
+	watchImpl(path, watcher)
+
+	<-done
+	return nil
+}
+
+func watchImpl(path string, watcher *fsnotify.Watcher) {
+	// main foler watch
+	if err := watcher.Add(path); err != nil {
 		log.Fatal(err)
 	}
 	log.Println("watch start folder :", path)
-	<-done
 
-	return nil
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, file := range files {
+		if file.IsDir() {
+			watchImpl(path+"/"+file.Name(), watcher)
+		}
+	}
 }
 
 func openFile(path string, wait time.Duration) (*os.File, error) {
@@ -145,6 +167,7 @@ func getMD5(path string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
 	h := md5.New()
 	if _, err := io.Copy(h, f); err != nil {
