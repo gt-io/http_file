@@ -14,7 +14,7 @@ func TestDB(t *testing.T) {
 	defer closeDB()
 
 	// query 0
-	if exist, err := existData("file0001"); err != nil {
+	if exist, err := existData("file0001", nil); err != nil {
 		t.Error("query data error", err)
 	} else {
 		if exist {
@@ -23,12 +23,12 @@ func TestDB(t *testing.T) {
 	}
 
 	// add new
-	if err := addData("file0001", "testdbdbdbdbaaa", time.Now()); err != nil {
+	if err := addData("file0001", []byte("testdbdbdbdbaaa"), time.Now()); err != nil {
 		t.Fatal(err)
 	}
 
 	// query 1
-	if exist, err := existData("file0001"); err != nil {
+	if exist, err := existData("file0001", nil); err != nil {
 		t.Error("query data error", err)
 	} else {
 		if !exist {
@@ -42,7 +42,7 @@ func TestDB(t *testing.T) {
 	}
 
 	// query 2
-	if exist, err := existData("file0001"); err != nil {
+	if exist, err := existData("file0001", nil); err != nil {
 		t.Error("query data error", err)
 	} else {
 		if exist {
