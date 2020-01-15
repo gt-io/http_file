@@ -16,11 +16,11 @@ var lo sync.RWMutex
 
 const myBucket = "files"
 
-func initDB(path string) error {
+func initDB(dbPath string) error {
 	lo.Lock()
 	defer lo.Unlock()
 
-	database, err := bolt.Open(path, 0600, nil)
+	database, err := bolt.Open(dbPath, 0600, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,22 +49,22 @@ func closeDB() {
 	}
 }
 
-func addData(path string, md5 []byte, date time.Time) error {
+func addData(filePath string, md5 []byte, date time.Time) error {
 	lo.Lock()
 	defer lo.Unlock()
 
 	return db.Update(func(tx *bolt.Tx) error {
-		return tx.Bucket([]byte(myBucket)).Put([]byte(path), []byte(md5))
+		return tx.Bucket([]byte(myBucket)).Put([]byte(filePath), []byte(md5))
 	})
 }
 
-func existData(path string, md5 []byte) (bool, error) {
+func existData(filePath string, md5 []byte) (bool, error) {
 	lo.RLock()
 	defer lo.RUnlock()
 
 	result := true
 	db.View(func(tx *bolt.Tx) error {
-		v := tx.Bucket([]byte(myBucket)).Get([]byte(path))
+		v := tx.Bucket([]byte(myBucket)).Get([]byte(filePath))
 		if v == nil || len(v) == 0 || bytes.Compare(v, md5) != 0 {
 			result = false
 		}
@@ -74,12 +74,12 @@ func existData(path string, md5 []byte) (bool, error) {
 	return result, nil
 }
 
-func delData(path string) error {
+func delData(filePath string) error {
 	lo.Lock()
 	defer lo.Unlock()
 
 	return db.Update(func(tx *bolt.Tx) error {
-		return tx.Bucket([]byte(myBucket)).Put([]byte(path), nil)
+		return tx.Bucket([]byte(myBucket)).Put([]byte(filePath), nil)
 	})
 }
 

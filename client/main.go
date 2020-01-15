@@ -10,14 +10,15 @@ import (
 	"github.com/judwhite/go-svc/svc"
 )
 
-var url string
+var (
+	surl  string
+	wpath string
+)
 
 // program implements svc.Service
 type program struct {
 	wg   sync.WaitGroup
 	quit chan struct{}
-
-	path string
 }
 
 func main() {
@@ -25,7 +26,7 @@ func main() {
 	ex, _ := os.Executable()
 	fpLog, err := os.OpenFile(filepath.Dir(ex)+"/watcher.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer fpLog.Close()
 
@@ -46,16 +47,16 @@ func (p *program) Init(env svc.Environment) error {
 	// open file db
 	ex, _ := os.Executable()
 	if err := initDB(filepath.Dir(ex) + "/data.db"); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	var err error
-	url, p.path, err = loadConfig(filepath.Dir(ex) + "/conf.json")
+	surl, wpath, err = loadConfig(filepath.Dir(ex) + "/conf.json")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	log.Println("start..", url, p.path)
+	log.Println("start..", surl, wpath)
 
 	return nil
 }
@@ -63,9 +64,9 @@ func (p *program) Init(env svc.Environment) error {
 func (p *program) Start() error {
 	log.Println("Starting...")
 
-	go checkExistFile(p.path)
+	go checkExistFile(wpath)
 
-	go watchFolder(p.path)
+	go watchFolder(wpath)
 
 	return nil
 }

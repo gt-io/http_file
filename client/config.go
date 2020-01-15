@@ -12,7 +12,7 @@ type Config struct {
 	Path string `json:"path"`
 }
 
-func loadConfig(path string) (string, string, error) {
+func loadConfig(configPath string) (string, string, error) {
 	var u, p string
 
 	flag.StringVar(&u, "url", "http://localhost:8080/upload", "upload path")
@@ -25,7 +25,7 @@ func loadConfig(path string) (string, string, error) {
 	}
 
 	// load from conf.json
-	dat, err := ioutil.ReadFile(path)
+	dat, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		return "", "", err
 	}

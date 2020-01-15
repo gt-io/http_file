@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -29,7 +30,18 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
 	ip = strings.ReplaceAll(ip, ":", ".")
 
-	log.Println("new upload file", ip)
+	keys, ok := r.URL.Query()["p"]
+	if !ok || len(keys[0]) < 1 {
+		log.Println("Url Param 'p' is missing")
+		return
+	}
+	p, err := url.QueryUnescape(keys[0])
+	if err != nil {
+		log.Println("Url parse error", keys[0])
+		return
+	}
+
+	log.Println("new upload file", ip, p)
 	file, header, err := r.FormFile("myFile")
 	if err != nil {
 		log.Println("not found form myFile", err)
@@ -40,10 +52,10 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("upload start :", header.Filename)
 
-	saveDir := dstFolder + "/" + time.Now().Format("2006-01-02")
+	saveDir := dstFolder + "/" + p // time.Now().Format("2006-01-02")
 	os.MkdirAll(saveDir, os.ModePerm)
 
-	savePath := fmt.Sprintf("%s//%s-%d-%s", saveDir, ip, time.Now().Unix(), header.Filename)
+	savePath := fmt.Sprintf("%s/%s", saveDir, header.Filename)
 	log.Println("save to", savePath)
 
 	start := time.Now()

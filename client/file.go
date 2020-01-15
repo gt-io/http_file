@@ -13,18 +13,18 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
-func checkExistFile(path string) error {
-	files, err := ioutil.ReadDir(path)
+func checkExistFile(watchPath string) error {
+	files, err := ioutil.ReadDir(watchPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, file := range files {
 		if file.IsDir() {
-			checkExistFile(path + "/" + file.Name())
+			checkExistFile(watchPath + "/" + file.Name())
 			continue
 		}
-		fn := path + "/" + file.Name()
+		fn := watchPath + "/" + file.Name()
 
 		// get md5
 		h, err := getMD5(fn)
@@ -51,7 +51,7 @@ func checkExistFile(path string) error {
 	return nil
 }
 
-func watchFolder(path string) error {
+func watchFolder(watchPath string) error {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
@@ -116,47 +116,47 @@ func watchFolder(path string) error {
 		}
 	}()
 
-	watchImpl(path, watcher)
+	watchImpl(watchPath, watcher)
 
 	<-done
 	return nil
 }
 
-func watchImpl(path string, watcher *fsnotify.Watcher) {
+func watchImpl(watchPath string, watcher *fsnotify.Watcher) {
 	// main foler watch
-	if err := watcher.Add(path); err != nil {
+	if err := watcher.Add(watchPath); err != nil {
 		log.Fatal(err)
 	}
-	log.Println("watch start folder :", path)
+	log.Println("watch start folder :", watchPath)
 
-	files, err := ioutil.ReadDir(path)
+	files, err := ioutil.ReadDir(watchPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, file := range files {
 		if file.IsDir() {
-			watchImpl(path+"/"+file.Name(), watcher)
+			watchImpl(watchPath+"/"+file.Name(), watcher)
 		}
 	}
 }
 
-func openFile(path string, wait time.Duration) (*os.File, error) {
+func openFile(filePath string, wait time.Duration) (*os.File, error) {
 	var f *os.File
 
 	retry := math.Ceil(wait.Seconds() / 3)
 
 	var err error
 	for retry > 0 {
-		f, err = os.OpenFile(path, os.O_RDWR, 0644)
+		f, err = os.OpenFile(filePath, os.O_RDWR, 0644)
 		if err != nil {
-			log.Println("file open error", err, path, retry)
+			log.Println("file open error", err, filePath, retry)
 			time.Sleep(time.Second * 3)
 			retry--
 			continue
 		}
 
 		if fi, _ := f.Stat(); time.Since(fi.ModTime()) < time.Second*10 {
-			log.Println("file is busy", path, retry)
+			log.Println("file is busy", filePath, retry)
 			time.Sleep(time.Second * 3)
 			retry--
 			continue
@@ -165,13 +165,13 @@ func openFile(path string, wait time.Duration) (*os.File, error) {
 		break
 	}
 	if f == nil {
-		return nil, fmt.Errorf("file open error %s", path)
+		return nil, fmt.Errorf("file open error %s", filePath)
 	}
 	return f, nil
 }
 
-func getMD5(path string) ([]byte, error) {
-	f, err := openFile(path, time.Hour)
+func getMD5(filePath string) ([]byte, error) {
+	f, err := openFile(filePath, time.Hour)
 	if err != nil {
 		return nil, err
 	}
