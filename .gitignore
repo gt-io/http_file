@@ -6,3 +6,4 @@ client/data.db.lock
 client/client.exe
 client/conf.json
 client/watcher.exe
+client/watcher.log

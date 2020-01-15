@@ -72,7 +72,7 @@ func watchFolder(path string) error {
 
 					// check file exist
 					if info, err := os.Stat(fn); os.IsNotExist(err) || info.IsDir() {
-						log.Fatalln("file not exist", fn, os.IsNotExist(err))
+						log.Println("file not exist", fn, os.IsNotExist(err))
 						continue
 					}
 
@@ -92,7 +92,7 @@ func watchFolder(path string) error {
 					log.Println("upload start ", fn)
 
 					if err := upload(fn); err != nil {
-						log.Println("file upload error")
+						log.Println("file upload error", err)
 						continue
 					}
 
@@ -125,13 +125,21 @@ func openFile(path string, wait time.Duration) (*os.File, error) {
 
 	var err error
 	for retry > 0 {
-		f, err = os.Open(path)
+		f, err = os.OpenFile(path, os.O_RDWR, 0644)
 		if err != nil {
 			log.Println("file open error", err, path, retry)
 			time.Sleep(time.Second * 3)
 			retry--
 			continue
 		}
+
+		if fi, _ := f.Stat(); time.Since(fi.ModTime()) < time.Second*10 {
+			log.Println("file is busy", path, retry)
+			time.Sleep(time.Second * 3)
+			retry--
+			continue
+		}
+
 		break
 	}
 	if f == nil {
