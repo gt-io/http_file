@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -9,22 +8,10 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
-
-var dstFolder string
-
-func main() {
-	flag.StringVar(&dstFolder, "path", ".", "save folder")
-	flag.Parse()
-	log.Println("save file path", dstFolder)
-
-	http.Handle("/", http.FileServer(http.Dir(dstFolder)))
-	http.HandleFunc("/upload", uploadHandler) // Display a form for user to upload file
-
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
@@ -52,10 +39,10 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("upload start :", header.Filename)
 
-	saveDir := dstFolder + "/" + p // time.Now().Format("2006-01-02")
+	saveDir := dstFolder + "/" + strings.ReplaceAll(filepath.ToSlash(p), "\\", "/") // time.Now().Format("2006-01-02")
 	os.MkdirAll(saveDir, os.ModePerm)
 
-	savePath := fmt.Sprintf("%s/%s", saveDir, header.Filename)
+	savePath := filepath.FromSlash(fmt.Sprintf("%s/%s", saveDir, header.Filename))
 	log.Println("save to", savePath)
 
 	start := time.Now()
@@ -77,6 +64,11 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "File uploaded successfully: ")
 	fmt.Fprintf(w, header.Filename)
+
+	l := time.Now().Format(time.RFC3339) + "," + ip + ",\"" + savePath + "\"\n"
+	if _, err := completeFile.WriteString(l); err != nil {
+		log.Println(err)
+	}
 
 	log.Println("upload finish :", savePath, time.Since(start))
 

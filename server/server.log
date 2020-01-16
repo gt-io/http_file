@@ -1,0 +1,43 @@
+2020/01/16 10:32:16 is win service? false
+2020/01/16 10:32:16 Starting...
+2020/01/16 10:33:08 Stopped.
+2020/01/16 10:33:11 is win service? false
+2020/01/16 10:33:12 start server /var/files :8080
+2020/01/16 10:33:12 Starting...
+2020/01/16 10:33:47 new upload file ..1 testt
+2020/01/16 10:33:47 upload start : Queen-LoveOfMyLife.zip
+2020/01/16 10:33:47 save to \var\files\testt\Queen-LoveOfMyLife.zip
+2020/01/16 10:33:47 upload finish : \var\files\testt\Queen-LoveOfMyLife.zip 991.9µs
+2020/01/16 10:36:29 Stopped.
+2020/01/16 10:37:59 is win service? true
+2020/01/16 10:37:59 start server /var/files :8080
+2020/01/16 10:37:59 Starting...
+2020/01/16 10:38:43 new upload file ..1 testt\12333
+2020/01/16 10:38:44 upload start : backup_2018-08-03.zip
+2020/01/16 10:38:44 save to \var\files\testt\12333\backup_2018-08-03.zip
+2020/01/16 10:38:44 upload finish : \var\files\testt\12333\backup_2018-08-03.zip 58.0096ms
+2020/01/16 10:41:03 Stopped.
+2020/01/16 11:49:20 is win service? false
+2020/01/16 11:49:20 start server /var/files :8081
+2020/01/16 11:49:20 Starting...
+2020/01/16 11:50:33 new upload file ..1 testt\12333
+2020/01/16 11:50:38 upload start : Anaconda3-2018.12-Windows-x86_64.exe
+2020/01/16 11:50:38 save to \var\files\testt\12333\Anaconda3-2018.12-Windows-x86_64.exe
+2020/01/16 11:50:39 upload finish : \var\files\testt\12333\Anaconda3-2018.12-Windows-x86_64.exe 1.2711457s
+2020/01/16 11:50:40 new upload file ..1 testt\12333
+2020/01/16 11:50:40 upload start : backup_2018-08-03.zip
+2020/01/16 11:50:40 save to \var\files\testt\12333\backup_2018-08-03.zip
+2020/01/16 11:50:40 upload finish : \var\files\testt\12333\backup_2018-08-03.zip 100.0316ms
+2020/01/16 11:50:40 new upload file ..1 testt
+2020/01/16 11:50:40 upload start : Queen-LoveOfMyLife.zip
+2020/01/16 11:50:40 save to \var\files\testt\Queen-LoveOfMyLife.zip
+2020/01/16 11:50:40 upload finish : \var\files\testt\Queen-LoveOfMyLife.zip 1.0031ms
+2020/01/16 13:33:55 new upload file ..1 testt\12333
+2020/01/16 13:33:55 upload start : Queen-LoveOfMyLife.zip
+2020/01/16 13:33:55 save to \var\files\testt\12333\Queen-LoveOfMyLife.zip
+2020/01/16 13:33:55 upload finish : \var\files\testt\12333\Queen-LoveOfMyLife.zip 1.0039ms
+2020/01/16 13:34:30 new upload file ..1 12333\333
+2020/01/16 13:34:30 upload start : Queen-LoveOfMyLife.zip
+2020/01/16 13:34:30 save to \var\files\12333\333\Queen-LoveOfMyLife.zip
+2020/01/16 13:34:30 upload finish : \var\files\12333\333\Queen-LoveOfMyLife.zip 1.0032ms
+2020/01/16 13:34:58 Stopped.

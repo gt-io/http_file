@@ -15,7 +15,7 @@ type Config struct {
 func loadConfig(configPath string) (string, string, error) {
 	var u, p string
 
-	flag.StringVar(&u, "url", "http://localhost:8080/upload", "upload path")
+	flag.StringVar(&u, "url", "http://localhost:8081/upload", "upload path")
 	flag.StringVar(&p, "path", "", "watch path")
 
 	flag.Parse()
