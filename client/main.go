@@ -58,20 +58,29 @@ func (p *program) Init(env svc.Environment) error {
 
 	log.Println("start..", surl, wpath)
 
+	// start async uploader
+	startUploader(1000)
+
 	return nil
 }
 
 func (p *program) Start() error {
 	log.Println("Starting...")
 
-	go checkExistFile(wpath)
+	go func() {
+		// start init folder exist file
+		checkExistFile(wpath)
 
-	go watchFolder(wpath)
+		// start watch folder()
+		watchFolder(wpath)
+	}()
 
 	return nil
 }
 
 func (p *program) Stop() error {
+	closeUploader()
+
 	log.Printf("Stopped.\n")
 	return nil
 }

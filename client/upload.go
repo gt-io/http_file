@@ -12,6 +12,60 @@ import (
 	"time"
 )
 
+var (
+	buf  chan string
+	done chan bool
+)
+
+func startUploader(bufferSize int) {
+	done = make(chan bool)
+	buf = make(chan string, bufferSize)
+	go func() {
+		for {
+			select {
+			case fn := <-buf:
+				log.Println("run...", fn)
+				// get md5
+				h, err := getMD5(fn)
+				if err != nil {
+					log.Println("getMD5 error", fn)
+					continue
+				}
+
+				// check aleady uploaded
+				if exist, _ := existData(fn, h); exist {
+					log.Println("aleady exist data", fn)
+					continue
+				}
+
+				log.Println("upload start ", fn)
+
+				if err := upload(fn); err != nil {
+					log.Println("file upload error", err, fn)
+					continue
+				}
+
+				addData(fn, h, time.Now())
+
+			case <-done:
+				return
+			}
+		}
+	}()
+}
+
+func closeUploader() {
+	log.Println("close uploder")
+
+	done <- true
+}
+
+func post(p string) {
+	log.Println("post..", p)
+
+	buf <- p
+}
+
 func upload(uploadFilePath string) error {
 	r, w := io.Pipe()
 	m := multipart.NewWriter(w)
@@ -29,6 +83,7 @@ func upload(uploadFilePath string) error {
 		log.Println("file open start", uploadFilePath)
 		file, err = openFile(uploadFilePath, time.Hour)
 		if err != nil {
+			log.Println("openFile error", err, uploadFilePath)
 			return
 		}
 		defer file.Close()

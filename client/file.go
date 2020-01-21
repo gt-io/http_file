@@ -1,9 +1,6 @@
 package main
 
 import (
-	"crypto/md5"
-	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"math"
@@ -14,6 +11,7 @@ import (
 )
 
 func checkExistFile(watchPath string) error {
+	log.Println("start exist file.", watchPath)
 	files, err := ioutil.ReadDir(watchPath)
 	if err != nil {
 		log.Fatal(err)
@@ -24,30 +22,10 @@ func checkExistFile(watchPath string) error {
 			checkExistFile(watchPath + "/" + file.Name())
 			continue
 		}
-		fn := watchPath + "/" + file.Name()
-
-		// get md5
-		h, err := getMD5(fn)
-		if err != nil {
-			log.Println("getMD5 error", fn)
-			continue
-		}
-
-		// check aleady uploaded
-		if exist, _ := existData(fn, h); exist {
-			log.Println("aleady exist data", fn)
-			continue
-		}
-
-		log.Println("upload start ", fn)
-
-		if err := upload(fn); err != nil {
-			log.Println("file upload error", err, fn)
-			continue
-		}
-
-		addData(fn, h, time.Now())
+		post(watchPath + "/" + file.Name())
 	}
+
+	log.Println("finish exist file.", watchPath)
 	return nil
 }
 
@@ -76,36 +54,24 @@ func watchFolder(watchPath string) error {
 						continue
 					}
 					if info.IsDir() {
-						err = watcher.Add(fn)
-						if err != nil {
-							log.Fatal(err)
-						}
-						log.Println("watch start folder :", fn)
+						watchImpl(fn, watcher)
 						continue
 					}
 
-					// get md5
-					h, err := getMD5(fn)
-					if err != nil {
-						log.Println("getMD5 error", fn)
+					post(fn)
+				} else if event.Op&fsnotify.Write == fsnotify.Write {
+					fn := event.Name
+
+					info, err := os.Stat(fn)
+					if os.IsNotExist(err) {
+						log.Println("file not exist", fn, os.IsNotExist(err))
+						continue
+					}
+					if info.IsDir() {
 						continue
 					}
 
-					// check aleady uploaded
-					if exist, _ := existData(fn, h); exist {
-						log.Println("aleady exist data", fn)
-						continue
-					}
-
-					log.Println("upload start ", fn)
-
-					if err := upload(fn); err != nil {
-						log.Println("file upload error", err)
-						continue
-					}
-
-					addData(fn, h, time.Now())
-
+					post(fn)
 				}
 			case err, ok := <-watcher.Errors:
 				if !ok {
@@ -141,45 +107,49 @@ func watchImpl(watchPath string, watcher *fsnotify.Watcher) {
 }
 
 func openFile(filePath string, wait time.Duration) (*os.File, error) {
-	var f *os.File
+	fi, err := os.Stat(filePath)
+	if err != nil {
+		return nil, err
+	}
 
 	retry := math.Ceil(wait.Seconds() / 3)
-
-	var err error
 	for retry > 0 {
-		f, err = os.OpenFile(filePath, os.O_RDWR, 0644)
-		if err != nil {
-			log.Println("file open error", err, filePath, retry)
-			time.Sleep(time.Second * 3)
-			retry--
-			continue
-		}
-
-		if fi, _ := f.Stat(); time.Since(fi.ModTime()) < time.Second*10 {
+		if time.Since(fi.ModTime()) < time.Second*10 {
 			log.Println("file is busy", filePath, retry)
 			time.Sleep(time.Second * 3)
 			retry--
 			continue
 		}
-
 		break
 	}
-	if f == nil {
-		return nil, fmt.Errorf("file open error %s", filePath)
+
+	var f *os.File
+	f, err = os.OpenFile(filePath, os.O_RDWR, 0644)
+	if err != nil {
+		log.Println("file open error", err, filePath, retry)
+		return nil, err
 	}
 	return f, nil
 }
 
 func getMD5(filePath string) ([]byte, error) {
-	f, err := openFile(filePath, time.Hour)
+	fi, err := os.Stat(filePath)
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	return []byte(fi.ModTime().Format(time.RFC3339Nano)), nil
 
-	h := md5.New()
-	if _, err := io.Copy(h, f); err != nil {
-		return nil, err
-	}
-	return h.Sum(nil), nil
+	/*
+		f, err := openFile(filePath, time.Hour)
+		if err != nil {
+			return nil, err
+		}
+		defer f.Close()
+
+		h := md5.New()
+		if _, err := io.Copy(h, f); err != nil {
+			return nil, err
+		}
+		return h.Sum(nil), nil
+	*/
 }
