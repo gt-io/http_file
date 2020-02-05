@@ -1,13 +1,14 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
 	"log"
 	"math"
 	"os"
 	"time"
 
-	"github.com/fsnotify/fsnotify"
+	"github.com/rjeczalik/notify"
 )
 
 func checkExistFile(watchPath string) error {
@@ -30,64 +31,82 @@ func checkExistFile(watchPath string) error {
 }
 
 func watchFolder(watchPath string) error {
-	watcher, err := fsnotify.NewWatcher()
-	if err != nil {
+	c := make(chan notify.EventInfo, 1)
+	if err := notify.Watch(watchPath+"/...", c, notify.Create, notify.Write); err != nil {
 		log.Fatal(err)
 	}
-	defer watcher.Close()
+	defer notify.Stop(c)
 
 	done := make(chan bool)
 	go func() {
 		for {
 			select {
-			case event, ok := <-watcher.Events:
+			case ev, ok := <-c:
 				if !ok {
+					log.Println("watcher close")
 					return
 				}
-				log.Println("event:", event)
-				if event.Op&fsnotify.Create == fsnotify.Create {
-					fn := event.Name
-
-					info, err := os.Stat(fn)
-					if os.IsNotExist(err) {
-						log.Println("file not exist", fn, os.IsNotExist(err))
-						continue
-					}
-					if info.IsDir() {
-						watchImpl(fn, watcher)
-						continue
-					}
-
-					post(fn)
-				} else if event.Op&fsnotify.Write == fsnotify.Write {
-					fn := event.Name
-
-					info, err := os.Stat(fn)
-					if os.IsNotExist(err) {
-						log.Println("file not exist", fn, os.IsNotExist(err))
-						continue
-					}
-					if info.IsDir() {
-						continue
-					}
-
-					post(fn)
-				}
-			case err, ok := <-watcher.Errors:
-				if !ok {
-					return
-				}
-				log.Println("error:", err)
+				log.Println("event:", ev.Event(), ev.Path())
+				post(ev.Path())
 			}
 		}
 	}()
-
-	watchImpl(watchPath, watcher)
-
 	<-done
+	/*
+		done := make(chan bool)
+		go func() {
+			for {
+				select {
+				case event, ok := <-watcher.Events:
+					if !ok {
+						return
+					}
+					log.Println("event:", event)
+					if event.Op&fsnotify.Create == fsnotify.Create {
+						fn := event.Name
+
+						info, err := os.Stat(fn)
+						if os.IsNotExist(err) {
+							log.Println("file not exist", fn, os.IsNotExist(err))
+							continue
+						}
+						if info.IsDir() {
+							watchImpl(fn, watcher)
+							continue
+						}
+
+						post(fn)
+					} else if event.Op&fsnotify.Write == fsnotify.Write {
+						fn := event.Name
+
+						info, err := os.Stat(fn)
+						if os.IsNotExist(err) {
+							log.Println("file not exist", fn, os.IsNotExist(err))
+							continue
+						}
+						if info.IsDir() {
+							continue
+						}
+
+						post(fn)
+					}
+				case err, ok := <-watcher.Errors:
+					if !ok {
+						return
+					}
+					log.Println("error:", err)
+				}
+			}
+		}()
+
+		watchImpl(watchPath, watcher)
+
+		<-done
+	*/
 	return nil
 }
 
+/*
 func watchImpl(watchPath string, watcher *fsnotify.Watcher) {
 	// main foler watch
 	if err := watcher.Add(watchPath); err != nil {
@@ -105,11 +124,14 @@ func watchImpl(watchPath string, watcher *fsnotify.Watcher) {
 		}
 	}
 }
-
+*/
 func openFile(filePath string, wait time.Duration) (*os.File, error) {
 	fi, err := os.Stat(filePath)
 	if err != nil {
 		return nil, err
+	}
+	if fi.IsDir() {
+		return nil, errors.New("path is dir")
 	}
 
 	retry := math.Ceil(wait.Seconds() / 3)
@@ -137,6 +159,10 @@ func getMD5(filePath string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	if fi.IsDir() {
+		return nil, errors.New("path is dir")
+	}
+
 	return []byte(fi.ModTime().Format(time.RFC3339Nano)), nil
 
 	/*

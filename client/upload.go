@@ -28,7 +28,7 @@ func startUploader(bufferSize int) {
 				// get md5
 				h, err := getMD5(fn)
 				if err != nil {
-					log.Println("getMD5 error", fn)
+					log.Println("getMD5 error", err, fn)
 					continue
 				}
 

@@ -37,10 +37,12 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
-	log.Println("upload start :", header.Filename)
+	log.Println("upload start :", dstFolder, header.Filename)
 
 	saveDir := dstFolder + "/" + strings.ReplaceAll(filepath.ToSlash(p), "\\", "/") // time.Now().Format("2006-01-02")
-	os.MkdirAll(saveDir, os.ModePerm)
+	if err := os.MkdirAll(saveDir, os.ModePerm); err != nil {
+		log.Println("create drirect error", err, saveDir)
+	}
 
 	savePath := filepath.FromSlash(fmt.Sprintf("%s/%s", saveDir, header.Filename))
 	log.Println("save to", savePath)
