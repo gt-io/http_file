@@ -41,3 +41,133 @@
 2020/01/16 13:34:30 save to \var\files\12333\333\Queen-LoveOfMyLife.zip
 2020/01/16 13:34:30 upload finish : \var\files\12333\333\Queen-LoveOfMyLife.zip 1.0032ms
 2020/01/16 13:34:58 Stopped.
+2020/02/07 17:31:37 is win service? false
+2020/02/07 17:31:37 start server /var/files :8081
+2020/02/07 17:31:37 Starting...
+2020/02/07 17:41:07 Stopped.
+2020/02/07 17:41:08 is win service? false
+2020/02/07 17:41:09 start server /var/files :8081
+2020/02/07 17:41:09 Starting...
+2020/02/07 17:41:10 check file in dir 12333
+2020/02/07 17:46:01 Stopped.
+2020/02/07 17:46:03 is win service? false
+2020/02/07 17:46:04 start server /var/files :8081
+2020/02/07 17:46:04 Starting...
+2020/02/07 17:46:07 check file in dir 12333
+2020/02/07 17:47:59 Stopped.
+2020/02/07 17:48:51 is win service? false
+2020/02/07 17:48:51 start server /var/files :8081
+2020/02/07 17:48:51 Starting...
+2020/02/07 17:48:52 check file in dir 12333
+2020/02/07 18:03:42 Stopped.
+2020/02/07 18:03:43 is win service? false
+2020/02/07 18:03:43 start server /var/files :8081
+2020/02/07 18:03:43 Starting...
+2020/02/07 18:03:45 check file in dir 12333
+2020/02/07 18:32:00 check file in dir 1233
+2020/02/07 18:32:00 read dir fail open /var/files/1233: The system cannot find the file specified. /var/files/1233
+2020/02/07 18:32:14 Stopped.
+2020/02/07 18:32:16 is win service? false
+2020/02/07 18:32:16 start server /var/files :8081
+2020/02/07 18:32:16 Starting...
+2020/02/07 18:32:20 check file in dir 1233
+2020/02/07 18:32:28 check file in dir 1233
+2020/02/07 18:32:45 Stopped.
+2020/02/07 18:32:47 is win service? false
+2020/02/07 18:32:47 start server /var/files :8081
+2020/02/07 18:32:47 Starting...
+2020/02/07 18:32:48 check file in dir 1233
+2020/02/07 18:32:48 dir is not exist /var/files/1233
+2020/02/07 18:32:50 check file in dir 1233
+2020/02/07 18:32:50 dir is not exist /var/files/1233
+2020/02/07 18:32:51 check file in dir 1233
+2020/02/07 18:32:51 dir is not exist /var/files/1233
+2020/02/07 18:32:51 check file in dir 1233
+2020/02/07 18:32:51 dir is not exist /var/files/1233
+2020/02/07 18:32:51 check file in dir 1233
+2020/02/07 18:32:51 dir is not exist /var/files/1233
+2020/02/07 18:32:52 check file in dir 1233
+2020/02/07 18:32:52 dir is not exist /var/files/1233
+2020/02/07 18:32:52 check file in dir 1233
+2020/02/07 18:32:52 dir is not exist /var/files/1233
+2020/02/07 18:32:52 check file in dir 1233
+2020/02/07 18:32:52 dir is not exist /var/files/1233
+2020/02/07 18:32:58 check file in dir 12333
+2020/02/07 18:39:49 Stopped.
+2020/02/07 18:39:51 is win service? false
+2020/02/07 18:39:51 start server /var/files :8081
+2020/02/07 18:39:51 Starting...
+2020/02/07 19:11:38 new upload file ..1 12333
+2020/02/07 19:11:38 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf
+2020/02/07 19:11:38 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf
+2020/02/07 19:11:38 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf 7.0248ms
+2020/02/07 19:11:38 new upload file ..1 12333
+2020/02/07 19:11:38 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서.pdf
+2020/02/07 19:11:38 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서.pdf
+2020/02/07 19:11:38 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서.pdf 2.9999ms
+2020/02/07 19:11:38 new upload file ..1 12333
+2020/02/07 19:11:38 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf
+2020/02/07 19:11:38 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf
+2020/02/07 19:11:38 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf 2.0313ms
+2020/02/07 19:21:14 new upload file ..1 12333
+2020/02/07 19:21:14 not found form myFile read tcp [::1]:8081->[::1]:1342: wsarecv: An existing connection was forcibly closed by the remote host.
+2020/02/07 19:31:18 new upload file ..1 12333
+2020/02/07 19:31:19 not found form myFile read tcp [::1]:8081->[::1]:1880: wsarecv: An existing connection was forcibly closed by the remote host.
+2020/02/07 19:34:11 new upload file ..1 12333
+2020/02/07 19:34:11 not found form myFile read tcp [::1]:8081->[::1]:2000: wsarecv: An existing connection was forcibly closed by the remote host.
+2020/02/07 19:35:01 new upload file ..1 12333
+2020/02/07 19:35:02 upload start : /var/files 4.1 - 433_DB표준스키마v2.3.4.xls
+2020/02/07 19:35:02 save to \var\files\12333\4.1 - 433_DB표준스키마v2.3.4.xls
+2020/02/07 19:35:02 upload finish : \var\files\12333\4.1 - 433_DB표준스키마v2.3.4.xls 4.0258ms
+2020/02/07 19:35:02 new upload file ..1 12333
+2020/02/07 19:35:02 upload start : /var/files 4.2 - 433_DB샤딩가이드_v1.0.pdf
+2020/02/07 19:35:02 save to \var\files\12333\4.2 - 433_DB샤딩가이드_v1.0.pdf
+2020/02/07 19:35:02 upload finish : \var\files\12333\4.2 - 433_DB샤딩가이드_v1.0.pdf 1.0016ms
+2020/02/07 19:35:02 new upload file ..1 12333
+2020/02/07 19:35:02 upload start : /var/files 4.3 - 433_MySQL개발가이드_v2.2.3.pdf
+2020/02/07 19:35:02 save to \var\files\12333\4.3 - 433_MySQL개발가이드_v2.2.3.pdf
+2020/02/07 19:35:02 upload finish : \var\files\12333\4.3 - 433_MySQL개발가이드_v2.2.3.pdf 4.0006ms
+2020/02/07 19:35:02 new upload file ..1 12333
+2020/02/07 19:35:02 upload start : /var/files 4.4 - 433_DB세부개발가이드v1.1.xls
+2020/02/07 19:35:02 save to \var\files\12333\4.4 - 433_DB세부개발가이드v1.1.xls
+2020/02/07 19:35:02 upload finish : \var\files\12333\4.4 - 433_DB세부개발가이드v1.1.xls 1.9996ms
+2020/02/07 19:35:02 new upload file ..1 12333
+2020/02/07 19:35:02 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf
+2020/02/07 19:35:02 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf
+2020/02/07 19:35:02 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf 2.0208ms
+2020/02/07 19:35:02 new upload file ..1 12333
+2020/02/07 19:35:02 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf
+2020/02/07 19:35:02 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf
+2020/02/07 19:35:02 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf 1.9996ms
+2020/02/07 19:35:02 new upload file ..1 12333
+2020/02/07 19:35:02 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서.pdf
+2020/02/07 19:35:02 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서.pdf
+2020/02/07 19:35:02 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서.pdf 2ms
+2020/02/07 19:36:23 new upload file ..1 12333
+2020/02/07 19:36:23 upload start : /var/files 4.2 - 433_DB샤딩가이드_v1.0.pdf
+2020/02/07 19:36:23 save to \var\files\12333\4.2 - 433_DB샤딩가이드_v1.0.pdf
+2020/02/07 19:36:23 upload finish : \var\files\12333\4.2 - 433_DB샤딩가이드_v1.0.pdf 0s
+2020/02/07 19:36:23 new upload file ..1 12333
+2020/02/07 19:36:23 upload start : /var/files 4.3 - 433_MySQL개발가이드_v2.2.3.pdf
+2020/02/07 19:36:23 save to \var\files\12333\4.3 - 433_MySQL개발가이드_v2.2.3.pdf
+2020/02/07 19:36:23 upload finish : \var\files\12333\4.3 - 433_MySQL개발가이드_v2.2.3.pdf 3.9998ms
+2020/02/07 19:36:23 new upload file ..1 12333
+2020/02/07 19:36:23 upload start : /var/files 4.4 - 433_DB세부개발가이드v1.1.xls
+2020/02/07 19:36:23 save to \var\files\12333\4.4 - 433_DB세부개발가이드v1.1.xls
+2020/02/07 19:36:23 upload finish : \var\files\12333\4.4 - 433_DB세부개발가이드v1.1.xls 2.0287ms
+2020/02/07 19:36:23 new upload file ..1 12333
+2020/02/07 19:36:23 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf
+2020/02/07 19:36:23 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf
+2020/02/07 19:36:23 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf 3.0032ms
+2020/02/07 19:36:23 new upload file ..1 12333
+2020/02/07 19:36:23 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf
+2020/02/07 19:36:23 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf
+2020/02/07 19:36:23 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf 2.0033ms
+2020/02/07 19:36:23 new upload file ..1 12333
+2020/02/07 19:36:23 upload start : /var/files 1. 2019 편리한 연말정산 마법사 사용 설명서.pdf
+2020/02/07 19:36:23 save to \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서.pdf
+2020/02/07 19:36:23 upload finish : \var\files\12333\1. 2019 편리한 연말정산 마법사 사용 설명서.pdf 3.0006ms
+2020/02/07 19:36:23 new upload file ..1 12333
+2020/02/07 19:36:23 upload start : /var/files 4.1 - 433_DB표준스키마v2.3.4.xls
+2020/02/07 19:36:23 save to \var\files\12333\4.1 - 433_DB표준스키마v2.3.4.xls
+2020/02/07 19:36:23 upload finish : \var\files\12333\4.1 - 433_DB표준스키마v2.3.4.xls 3.0019ms

@@ -71,7 +71,7 @@ func (p *program) Start() error {
 
 	// route
 	http.Handle("/", http.FileServer(http.Dir(dstFolder)))
-	http.HandleFunc("/upload", uploadHandler) // Display a form for user to upload file
+	http.HandleFunc("/upload", uploadHandler)
 
 	// start server
 	go http.ListenAndServe(p.port, nil)

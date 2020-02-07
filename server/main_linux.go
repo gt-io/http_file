@@ -35,7 +35,7 @@ func main() {
 
 	// route
 	http.Handle("/", http.FileServer(http.Dir(dstFolder)))
-	http.HandleFunc("/upload", uploadHandler) // Display a form for user to upload file
+	http.HandleFunc("/upload", uploadHandler)
 
 	// start server
 	log.Fatal(http.ListenAndServe(lport, nil))

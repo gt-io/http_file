@@ -7,3 +7,6 @@ client/client.exe
 client/conf.json
 client/watcher.exe
 client/watcher.log
+server/tmp/server.log
+server/tmp/runner-build.exe
+server/server.log

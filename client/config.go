@@ -2,38 +2,45 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
 	"io/ioutil"
 )
 
 // Config ...
 type Config struct {
-	URL  string `json:"url"`
-	Path string `json:"path"`
+	URL   string `json:"url"`
+	Path  string `json:"path"`
+	Check string `json:"check"`
 }
 
-func loadConfig(configPath string) (string, string, error) {
-	var u, p string
+func (c *Config) vaild() bool {
+	return c.URL != "" && c.Path != ""
+}
 
-	flag.StringVar(&u, "url", "http://localhost:8081/upload", "upload path")
-	flag.StringVar(&p, "path", "", "watch path")
+func loadConfig(configPath string) (*Config, error) {
+	var c Config
+
+	flag.StringVar(&c.URL, "url", "http://localhost:8081/upload", "upload path")
+	flag.StringVar(&c.Path, "path", "", "watch path")
+	flag.StringVar(&c.Check, "check", "", "check path in file server")
 
 	flag.Parse()
 
-	if u != "" && p != "" {
-		return u, p, nil
+	if !c.vaild() {
+		// load from conf.json
+		dat, err := ioutil.ReadFile(configPath)
+		if err != nil {
+			return nil, err
+		}
+		if err = json.Unmarshal(dat, &c); err != nil {
+			return nil, err
+		}
+
+		if !c.vaild() {
+			return nil, errors.New("invalid config")
+		}
 	}
 
-	// load from conf.json
-	dat, err := ioutil.ReadFile(configPath)
-	if err != nil {
-		return "", "", err
-	}
-
-	var c Config
-	if err = json.Unmarshal(dat, &c); err != nil {
-		return "", "", err
-	}
-
-	return c.URL, c.Path, nil
+	return &c, nil
 }
