@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/tls"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -16,10 +18,33 @@ import (
 var (
 	buf  chan string
 	done chan bool
+
+	httpClient *http.Client
 )
+
+func init() {
+	var defaultTransport http.Transport
+
+	// Customize the Transport to have larger connection pool
+	defaultRoundTripper := http.DefaultTransport
+	defaultTransportPointer, ok := defaultRoundTripper.(*http.Transport)
+	if !ok {
+		panic(fmt.Sprintf("defaultRoundTripper not an *http.Transport"))
+	}
+	defaultTransport = *defaultTransportPointer // dereference it to get a copy of the struct that the pointer points to
+	defaultTransport.MaxIdleConns = 1000
+	defaultTransport.MaxIdleConnsPerHost = 1000
+	defaultTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
+	httpClient = &http.Client{
+		Transport: &defaultTransport,
+		Timeout:   0,
+	}
+}
 
 func startUploader(bufferSize int, wg *sync.WaitGroup) {
 	buf = make(chan string, bufferSize)
+	var f *os.File
 	go func() {
 		defer wg.Done()
 		for {
@@ -28,34 +53,31 @@ func startUploader(bufferSize int, wg *sync.WaitGroup) {
 				log.Println("close uploader")
 				return
 			}
-			log.Println("run...", fn)
-			// get md5
-			h, err := getMD5(fn)
-			if err != nil {
-				log.Println("getMD5 error", err, fn)
-				continue
+
+			//
+			if f == nil {
+				stateF, err := os.OpenFile(statePath, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
+				if err != nil {
+					log.Println(err)
+					continue
+				}
+				f = stateF
 			}
+			f.WriteString(fn + "\n")
 
-			// check aleady uploaded
-			if exist, _ := existData(fn, h); exist {
-				log.Println("aleady exist data", fn)
-				continue
+			uploadProc(fn)
+
+			if len(buf) == 0 {
+				f.Close()
+				os.Remove(statePath)
+				f = nil
 			}
-
-			log.Println("upload start ", fn)
-
-			if err := upload(fn); err != nil {
-				log.Println("file upload error", err, fn)
-				continue
-			}
-
-			addData(fn, h, time.Now())
 		}
 	}()
-
 }
 
 func closeUploader() {
+	log.Println(" close queue..")
 	close(buf)
 }
 
@@ -65,7 +87,53 @@ func post(p string) {
 	buf <- p
 }
 
+func uploadProc(fn string) error {
+	log.Println("run....", fn)
+
+	/*
+		///////////////////////////////////////////////
+		// create state file.
+		f, err := os.OpenFile(statePath, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+		defer func() {
+			f.Close()
+			os.Remove(statePath)
+		}()
+		f.WriteString(fn)
+		///////////////////////////////////////////////
+	*/
+
+	// get md5
+	h, err := getMD5(fn)
+	if err != nil {
+		log.Println("getMD5 error", err, fn)
+		return err
+	}
+
+	// check aleady uploaded
+	if exist, _ := existData(fn, h); exist {
+		log.Println("aleady exist data", fn)
+		return err
+	}
+
+	// start upload file
+	if err := upload(fn); err != nil {
+		log.Println("file upload error", err, fn)
+		return err
+	}
+
+	// add db
+	addData(fn, h, time.Now())
+
+	return nil
+}
+
 func upload(uploadFilePath string) error {
+	log.Println("upload..", uploadFilePath)
+
 	r, w := io.Pipe()
 	m := multipart.NewWriter(w)
 	go func() {
@@ -79,7 +147,7 @@ func upload(uploadFilePath string) error {
 
 		var file *os.File
 
-		log.Println("file open start", uploadFilePath)
+		//log.Println("file open start", uploadFilePath)
 		file, err = openFile(uploadFilePath, time.Hour)
 		if err != nil {
 			log.Println("openFile error", err, uploadFilePath)
@@ -87,19 +155,30 @@ func upload(uploadFilePath string) error {
 		}
 		defer file.Close()
 
-		log.Println("file copy start", uploadFilePath)
+		//log.Println("file copy start", uploadFilePath)
 		if _, err = io.Copy(part, file); err != nil {
 			log.Println("io.Copy error", err)
 			return
 		}
-		log.Println("file copy finish", uploadFilePath)
+		//log.Println("file copy finish", uploadFilePath)
 	}()
 
-	// parse url.
+	// get save dir.
+	saveDir := ""
 	p := filepath.Dir(uploadFilePath)
-	u := conf.URL + "?p=" + url.QueryEscape(p[len(filepath.FromSlash(conf.Path))+1:])
+	if p != filepath.FromSlash(conf.Path) {
+		saveDir = p[len(filepath.FromSlash(conf.Path))+1:]
+	}
 
-	resp, err := http.Post(u, m.FormDataContentType(), r)
+	u := conf.URL + "?p=" + url.QueryEscape(saveDir)
+
+	req, err := http.NewRequest("POST", u, r)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", m.FormDataContentType())
+
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
@@ -107,6 +186,6 @@ func upload(uploadFilePath string) error {
 
 	// 결과 출력
 	bytes, _ := ioutil.ReadAll(resp.Body)
-	log.Println("upload ok", u, uploadFilePath, string(bytes))
+	log.Println("upload ok", uploadFilePath, u, string(bytes))
 	return nil
 }

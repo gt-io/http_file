@@ -13,23 +13,31 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
 	ip = strings.ReplaceAll(ip, ":", ".")
 
-	keys, ok := r.URL.Query()["p"]
-	if !ok || len(keys[0]) < 1 {
-		log.Println("Url Param 'p' is missing")
-		return
+	paramSavePath := ""
+	{
+		keys, ok := r.URL.Query()["p"]
+		if !ok || len(keys[0]) < 1 {
+			log.Println("Url Param 'p' is missing")
+		} else {
+			p, err := url.QueryUnescape(keys[0])
+			if err != nil {
+				log.Println("Url parse error", keys[0])
+				return
+			}
+			paramSavePath = p
+		}
+
 	}
-	p, err := url.QueryUnescape(keys[0])
-	if err != nil {
-		log.Println("Url parse error", keys[0])
-		return
-	}
-	saveDir := dstFolder + "/" + strings.ReplaceAll(filepath.ToSlash(p), "\\", "/") // time.Now().Format("2006-01-02")
+
+	saveDir := dstFolder + "/" + strings.ReplaceAll(filepath.ToSlash(paramSavePath), "\\", "/") // time.Now().Format("2006-01-02")
 
 	switch r.Method {
 	case "GET":
@@ -65,7 +73,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	case "POST":
 
-		log.Println("new upload file", ip, p)
+		log.Println("new upload file", ip, paramSavePath)
 		file, header, err := r.FormFile("myFile")
 		if err != nil {
 			log.Println("not found form myFile", err)
@@ -74,23 +82,32 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		defer file.Close()
 
-		log.Println("upload start :", dstFolder, header.Filename)
-
-		if err := os.MkdirAll(saveDir, os.ModePerm); err != nil {
-			log.Println("create drirect error", err, saveDir)
+		var tempFile string
+		if tmpFolder == "" {
+			tempFile = filepath.FromSlash(fmt.Sprintf("%s/%s", saveDir, header.Filename))
+		} else {
+			tempFile = tmpFolder + "/" + uuid.New().String()
 		}
 
-		savePath := filepath.FromSlash(fmt.Sprintf("%s/%s", saveDir, header.Filename))
-		log.Println("save to", savePath)
+		// make save dir
+		if err := os.MkdirAll(saveDir, os.ModePerm); err != nil {
+			log.Println("create directory error", err, saveDir)
+		}
+
+		log.Println("upload start :", header.Filename, tempFile)
 
 		start := time.Now()
-		out, err := os.Create(savePath)
+		out, err := os.Create(tempFile)
 		if err != nil {
-			log.Println("Unable to create the file for writing. Check your write access privilege", err, savePath)
+			log.Println("Unable to create the file for writing. Check your write access privilege", err, tempFile)
 			fmt.Fprintf(w, "Unable to create the file for writing. Check your write access privilege")
 			return
 		}
-		defer out.Close()
+		defer func() {
+			if out != nil {
+				out.Close()
+			}
+		}()
 
 		// write the content from POST to the file
 		_, err = io.Copy(out, file)
@@ -103,11 +120,23 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "File uploaded successfully: ")
 		fmt.Fprintf(w, header.Filename)
 
-		l := time.Now().Format(time.RFC3339) + "," + ip + ",\"" + savePath + "\"\n"
-		if _, err := completeFile.WriteString(l); err != nil {
-			log.Println(err)
+		if tmpFolder != "" {
+			savePath := filepath.FromSlash(fmt.Sprintf("%s/%s", saveDir, header.Filename))
+
+			out.Close()
+			if err := os.Rename(tempFile, savePath); err != nil {
+				log.Println("move file error", err)
+				return
+			}
+			tempFile = savePath
 		}
 
-		log.Println("upload finish :", savePath, time.Since(start))
+		// save complete log
+		l := time.Now().Format(time.RFC3339) + "," + ip + ",\"" + tempFile + "\"\n"
+		if _, err := completeFile.WriteString(l); err != nil {
+			log.Println("complete log write fail", err)
+		}
+
+		log.Println("upload finish :", tempFile, time.Since(start))
 	}
 }

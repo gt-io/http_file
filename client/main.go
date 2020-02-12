@@ -10,6 +10,9 @@ import (
 
 var (
 	conf *Config
+
+	statePath string
+	syncPath  string
 )
 
 func main() {
@@ -22,8 +25,6 @@ func main() {
 	defer fpLog.Close()
 
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
-
-	// 파일과 화면에 같이 출력하기 위해 MultiWriter 생성
 	log.SetOutput(io.MultiWriter(fpLog, os.Stdout))
 
 	if err := initDB(filepath.Dir(ex) + "/data.db"); err != nil {
@@ -35,6 +36,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	statePath = filepath.Dir(ex) + "/state.txt"
+	syncPath = filepath.Dir(ex) + "/sync.txt"
+
 	log.Println("start..", conf)
 
 	var wg sync.WaitGroup
@@ -45,7 +49,7 @@ func main() {
 
 	if conf.Check != "" {
 		// check upload path
-		checkUploadFiles(conf.Check)
+		checkUploadFiles(conf.Path + "/" + conf.Check)
 
 	} else {
 		// start init folder exist file
@@ -53,6 +57,7 @@ func main() {
 
 		// start watch folder()
 		watchFolder(conf.Path)
+
 	}
 
 	closeUploader()

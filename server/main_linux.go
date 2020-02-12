@@ -18,11 +18,18 @@ func main() {
 
 	// load config
 	ex, _ := os.Executable()
-	wpath, lport, err := loadConfig(ex + ".json")
+	wpath, lport, tmpDir, err := loadConfig(ex + ".json")
 	if err != nil {
 		log.Fatal(err)
 	}
 	dstFolder = wpath
+
+	if tmpDir != "" {
+		if err := os.MkdirAll(tmpDir, os.ModePerm); err != nil {
+			log.Println("create temp directory error", err, tmpDir)
+		}
+		tmpFolder = tmpDir
+	}
 
 	// init complete file.
 	f, err := os.OpenFile(dstFolder+"/complete.log",

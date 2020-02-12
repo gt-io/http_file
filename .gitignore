@@ -10,3 +10,7 @@ client/watcher.log
 server/tmp/server.log
 server/tmp/runner-build.exe
 server/server.log
+client/state.txt
+server/tmp/conf.json
+server/tmp/runner-build.exe~
+

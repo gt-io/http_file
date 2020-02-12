@@ -2,129 +2,12 @@ package main
 
 import (
 	"errors"
-	"io/ioutil"
 	"log"
 	"math"
 	"os"
 	"time"
-
-	"github.com/rjeczalik/notify"
 )
 
-func checkExistFile(watchPath string) error {
-	log.Println("start exist file.", watchPath)
-	files, err := ioutil.ReadDir(watchPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, file := range files {
-		if file.IsDir() {
-			checkExistFile(watchPath + "/" + file.Name())
-			continue
-		}
-		post(watchPath + "/" + file.Name())
-	}
-
-	log.Println("finish exist file.", watchPath)
-	return nil
-}
-
-func watchFolder(watchPath string) error {
-	c := make(chan notify.EventInfo, 1)
-	if err := notify.Watch(watchPath+"/...", c, notify.Create, notify.Write); err != nil {
-		log.Fatal(err)
-	}
-	defer notify.Stop(c)
-
-	done := make(chan bool)
-	go func() {
-		for {
-			select {
-			case ev, ok := <-c:
-				if !ok {
-					log.Println("watcher close")
-					return
-				}
-				log.Println("event:", ev.Event(), ev.Path())
-				post(ev.Path())
-			}
-		}
-	}()
-	<-done
-	/*
-		done := make(chan bool)
-		go func() {
-			for {
-				select {
-				case event, ok := <-watcher.Events:
-					if !ok {
-						return
-					}
-					log.Println("event:", event)
-					if event.Op&fsnotify.Create == fsnotify.Create {
-						fn := event.Name
-
-						info, err := os.Stat(fn)
-						if os.IsNotExist(err) {
-							log.Println("file not exist", fn, os.IsNotExist(err))
-							continue
-						}
-						if info.IsDir() {
-							watchImpl(fn, watcher)
-							continue
-						}
-
-						post(fn)
-					} else if event.Op&fsnotify.Write == fsnotify.Write {
-						fn := event.Name
-
-						info, err := os.Stat(fn)
-						if os.IsNotExist(err) {
-							log.Println("file not exist", fn, os.IsNotExist(err))
-							continue
-						}
-						if info.IsDir() {
-							continue
-						}
-
-						post(fn)
-					}
-				case err, ok := <-watcher.Errors:
-					if !ok {
-						return
-					}
-					log.Println("error:", err)
-				}
-			}
-		}()
-
-		watchImpl(watchPath, watcher)
-
-		<-done
-	*/
-	return nil
-}
-
-/*
-func watchImpl(watchPath string, watcher *fsnotify.Watcher) {
-	// main foler watch
-	if err := watcher.Add(watchPath); err != nil {
-		log.Fatal(err)
-	}
-	log.Println("watch start folder :", watchPath)
-
-	files, err := ioutil.ReadDir(watchPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, file := range files {
-		if file.IsDir() {
-			watchImpl(watchPath+"/"+file.Name(), watcher)
-		}
-	}
-}
-*/
 func openFile(filePath string, wait time.Duration) (*os.File, error) {
 	fi, err := os.Stat(filePath)
 	if err != nil {
