@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/rjeczalik/notify"
@@ -18,8 +21,8 @@ func checkExistFile(watchPath string) error {
 
 	for _, file := range files {
 		if file.IsDir() {
-			checkExistFile(watchPath + "/" + file.Name())
-			checkUploadFiles(watchPath + "/" + file.Name())
+			checkExistFile(watchPath + string(os.PathSeparator) + file.Name())
+			checkUploadFiles(watchPath + string(os.PathSeparator) + file.Name())
 		}
 	}
 
@@ -64,31 +67,34 @@ func watchProc() {
 		return
 	}
 
-	// 2. read check folder from sync file
-	data, err := ioutil.ReadFile(syncPath)
+	fo, err := os.Open(syncPath)
 	if err != nil {
-		log.Println("read file", err)
+		log.Println("file open error", err, syncPath)
 		return
 	}
 
-	// 3. check dir
-	var checkDir string
-	if data != nil && len(data) > 0 {
-		checkDir = string(data)
-		if checkDir != errPath {
-			log.Println("new check dir!", checkDir)
-			checkUploadFiles(conf.Path + "/" + checkDir)
+	reader := bufio.NewReader(fo)
+	for {
+		line, isPrefix, err := reader.ReadLine()
+		if isPrefix || err != nil {
+			log.Println("read line error", err, isPrefix)
+			break
 		}
-	} else {
-		log.Println("sync file is empty")
-		return
+		checkDir := string(line)
+		strings.TrimSuffix(checkDir, "\n")
+		strings.TrimSuffix(checkDir, "\r")
+		if checkDir == "" {
+			break
+		}
+		log.Println("new check dir!", checkDir)
+		checkUploadFiles(conf.Path + string(os.PathSeparator) + filepath.FromSlash(checkDir))
 	}
+	fo.Close()
 
 	// 4. delete syncfile
 	if err := os.Remove(syncPath); err != nil {
-		log.Println("sync file remove fail", err, checkDir)
-		errPath = checkDir
+		log.Println("sync file remove fail", err)
 	} else {
-		errPath = ""
+		log.Println("sync file removed")
 	}
 }

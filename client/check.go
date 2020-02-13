@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"path/filepath"
 )
 
@@ -76,9 +77,9 @@ func checkUploadFiles(p string) (bool, error) {
 		// diff..upload
 		log.Println("diff file", lfn, lsize, ssize)
 
-		delData(p + "/" + lfn)
+		delData(p + string(os.PathSeparator) + lfn)
 
-		post(p + "/" + lfn)
+		post(p + string(os.PathSeparator) + lfn)
 	}
 
 	if isSame {

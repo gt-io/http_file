@@ -1,5 +1,5 @@
 {
     "port" : ":8081",
-    "path" : "/var/files",
-    "temp_dir" : "/var/_tmp"
+    "path" : "c:\\var\\files",
+    "temp_dir" : "c:\\varc:\\_tmp"
 }

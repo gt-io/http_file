@@ -34,10 +34,9 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			paramSavePath = p
 		}
-
 	}
 
-	saveDir := dstFolder + "/" + strings.ReplaceAll(filepath.ToSlash(paramSavePath), "\\", "/") // time.Now().Format("2006-01-02")
+	saveDir := dstFolder + string(os.PathSeparator) + filepath.FromSlash(strings.ReplaceAll(paramSavePath, "\\", "/")) // time.Now().Format("2006-01-02")
 
 	switch r.Method {
 	case "GET":
@@ -84,9 +83,9 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 		var tempFile string
 		if tmpFolder == "" {
-			tempFile = filepath.FromSlash(fmt.Sprintf("%s/%s", saveDir, header.Filename))
+			tempFile = filepath.FromSlash(saveDir + string(os.PathSeparator) + header.Filename)
 		} else {
-			tempFile = tmpFolder + "/" + uuid.New().String()
+			tempFile = tmpFolder + string(os.PathSeparator) + uuid.New().String()
 		}
 
 		// make save dir
@@ -121,7 +120,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, header.Filename)
 
 		if tmpFolder != "" {
-			savePath := filepath.FromSlash(fmt.Sprintf("%s/%s", saveDir, header.Filename))
+			savePath := filepath.FromSlash(saveDir + string(os.PathSeparator) + header.Filename)
 
 			out.Close()
 			if err := os.Rename(tempFile, savePath); err != nil {

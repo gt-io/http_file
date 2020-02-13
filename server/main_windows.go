@@ -27,7 +27,7 @@ type program struct {
 func main() {
 	// init log
 	ex, _ := os.Executable()
-	fpLog, err := os.OpenFile(filepath.Dir(ex)+"/server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	fpLog, err := os.OpenFile(filepath.Dir(ex)+string(os.PathSeparator)+"server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,7 +48,7 @@ func (p *program) Init(env svc.Environment) error {
 
 	// load config
 	ex, _ := os.Executable()
-	wpath, lport, tmpDir, err := loadConfig(filepath.Dir(ex) + "/conf.json")
+	wpath, lport, tmpDir, err := loadConfig(filepath.Dir(ex) + string(os.PathSeparator) + "conf.json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,7 +56,7 @@ func (p *program) Init(env svc.Environment) error {
 
 	if tmpDir != "" {
 		if err := os.MkdirAll(tmpDir, os.ModePerm); err != nil {
-			log.Println("create temp directory error", err, tmpDir)
+			log.Fatalln("create temp directory error", err, tmpDir)
 		}
 		tmpFolder = tmpDir
 	}
@@ -71,7 +71,7 @@ func (p *program) Start() error {
 
 	// init complete file.
 	var err error
-	completeFile, err = os.OpenFile(dstFolder+"/complete.log",
+	completeFile, err = os.OpenFile(dstFolder+string(os.PathSeparator)+"complete.log",
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalln(err)
