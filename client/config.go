@@ -12,6 +12,7 @@ type Config struct {
 	URL   string `json:"url"`
 	Path  string `json:"path"`
 	Check string `json:"check"`
+	Day   int    `json:"day"`
 }
 
 func (c *Config) vaild() bool {
@@ -24,6 +25,7 @@ func loadConfig(configPath string) (*Config, error) {
 	flag.StringVar(&c.URL, "url", "http://localhost:8081/upload", "upload path")
 	flag.StringVar(&c.Path, "path", "", "watch path")
 	flag.StringVar(&c.Check, "check", "", "check path in file server")
+	flag.IntVar(&c.Day, "day", 0, "check day")
 
 	flag.Parse()
 

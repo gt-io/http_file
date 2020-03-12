@@ -171,3 +171,151 @@
 2020/02/07 19:36:23 upload start : /var/files 4.1 - 433_DB표준스키마v2.3.4.xls
 2020/02/07 19:36:23 save to \var\files\12333\4.1 - 433_DB표준스키마v2.3.4.xls
 2020/02/07 19:36:23 upload finish : \var\files\12333\4.1 - 433_DB표준스키마v2.3.4.xls 3.0019ms
+2020/03/12 14:20:46 is win service? false
+2020/03/12 14:20:46 start server {c:\var\files :8081 c:\varc:\_tmp}
+2020/03/12 14:20:46 create temp directory error mkdir c:\varc:: The filename, directory name, or volume label syntax is incorrect. c:\varc:\_tmp
+2020/03/12 14:22:22 is win service? false
+2020/03/12 14:22:22 start server {c:\var\files :8081 c:\varc:\_tmp}
+2020/03/12 14:22:22 create temp directory error mkdir c:\varc:: The filename, directory name, or volume label syntax is incorrect. c:\varc:\_tmp
+2020/03/12 14:23:01 is win service? false
+2020/03/12 14:23:01 start server {c:\var\files :8081 c:\var\_tmp}
+2020/03/12 14:23:01 Starting...
+2020/03/12 14:23:59 dir is not exist c:\var\files\2020-03-02\123231
+2020/03/12 14:23:59 new upload file ..1 2020-03-02\123231
+2020/03/12 14:23:59 dir is not exist c:\var\files\2020-02-19\112233\332211\333322221111
+2020/03/12 14:23:59 dir is not exist c:\var\files\2020-02-19\112233\332211
+2020/03/12 14:23:59 dir is not exist c:\var\files\2020-02-10\12333\333
+2020/03/12 14:23:59 dir is not exist c:\var\files\2020-02-10\12333
+2020/03/12 14:23:59 upload start : 1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf c:\var\_tmp\34a991b8-b7a1-4466-ae93-c25599a3cb2f
+2020/03/12 14:23:59 upload finish : c:\var\files\2020-03-02\123231\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf 3.0001ms
+2020/03/12 14:23:59 new upload file ..1 2020-03-02\123231
+2020/03/12 14:23:59 upload start : 4. 스캔 및 출력 매뉴얼.pptx c:\var\_tmp\3a22a5f4-e691-46da-80db-fa602bd3283e
+2020/03/12 14:23:59 upload finish : c:\var\files\2020-03-02\123231\4. 스캔 및 출력 매뉴얼.pptx 2.0267ms
+2020/03/12 14:23:59 new upload file ..1 2020-03-02\123231
+2020/03/12 14:23:59 upload start : MVIMG_20191213_142059.jpg c:\var\_tmp\344bfebe-9cb5-44f4-b443-27dfc661a44a
+2020/03/12 14:23:59 upload finish : c:\var\files\2020-03-02\123231\MVIMG_20191213_142059.jpg 7.9995ms
+2020/03/12 14:23:59 new upload file ..1 2020-03-02\123231
+2020/03/12 14:24:00 upload start : OrangeFox-R10.1_01-Stable-lavender.zip c:\var\_tmp\ab6c53d4-5f74-4361-abe3-b27bcf62f63e
+2020/03/12 14:24:00 upload finish : c:\var\files\2020-03-02\123231\OrangeFox-R10.1_01-Stable-lavender.zip 33.0427ms
+2020/03/12 14:24:00 new upload file ..1 2020-03-02\123231
+2020/03/12 14:24:00 upload start : Windows10Upgrade9252 (2).exe c:\var\_tmp\e1264e5e-4928-4f41-bf37-61cfa2d5cd58
+2020/03/12 14:24:00 upload finish : c:\var\files\2020-03-02\123231\Windows10Upgrade9252 (2).exe 15.0039ms
+2020/03/12 14:24:00 new upload file ..1 2020-03-02\123231
+2020/03/12 14:24:02 upload start : open_gapps-arm64-10.0-nano-20190928-BETA.zip c:\var\_tmp\fb962608-fd07-46ef-b976-d1ce55b91045
+2020/03/12 14:24:02 upload finish : c:\var\files\2020-03-02\123231\open_gapps-arm64-10.0-nano-20190928-BETA.zip 106.0022ms
+2020/03/12 14:24:02 new upload file ..1 2020-03-02\123231
+2020/03/12 14:24:02 upload start : 정진수_포트폴리오 (1).ZIP c:\var\_tmp\9ca4d4f2-5968-45e3-8d3f-9a11f3b1a483
+2020/03/12 14:24:02 upload finish : c:\var\files\2020-03-02\123231\정진수_포트폴리오 (1).ZIP 27.0342ms
+2020/03/12 14:24:02 new upload file ..1 2020-03-02\123231
+2020/03/12 14:24:03 upload start : 정진수_포트폴리오.ZIP c:\var\_tmp\2d394f67-1d2a-419e-a202-441c2c983846
+2020/03/12 14:24:03 upload finish : c:\var\files\2020-03-02\123231\정진수_포트폴리오.ZIP 28.0017ms
+2020/03/12 14:24:03 new upload file ..1 2020-02-19\112233\332211\333322221111
+2020/03/12 14:24:03 upload start : 3. 스캔 드라이버 설치 매뉴얼.pptx c:\var\_tmp\3bb709bc-d965-4fbd-b3a1-2e9f22810d2d
+2020/03/12 14:24:03 upload finish : c:\var\files\2020-02-19\112233\332211\333322221111\3. 스캔 드라이버 설치 매뉴얼.pptx 2.001ms
+2020/03/12 14:24:03 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:24:16 upload start : crDroidAndroid-9.0-20190915-lavender-v5.8.zip c:\var\_tmp\7fa3be58-e5e6-462a-9011-d0d4c9102b94
+2020/03/12 14:24:22 upload finish : c:\var\files\2020-02-19\112233\332211\crDroidAndroid-9.0-20190915-lavender-v5.8.zip 5.7486247s
+2020/03/12 14:24:22 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:24:45 upload start : elementaryos-5.0-stable.20181016.iso c:\var\_tmp\e4b83b48-7445-4042-9458-db7e0c456ffa
+2020/03/12 14:24:51 upload finish : c:\var\files\2020-02-19\112233\332211\elementaryos-5.0-stable.20181016.iso 6.6127174s
+2020/03/12 14:24:52 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:25:06 upload start : Client_CoreShooterGameClient_35_artifacts.zip c:\var\_tmp\1de0f045-5df5-4409-b549-c182106b2056
+2020/03/12 14:25:10 upload finish : c:\var\files\2020-02-19\112233\332211\Client_CoreShooterGameClient_35_artifacts.zip 4.1332093s
+2020/03/12 14:25:11 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:25:25 upload start : GGP SDK Installer.1.27.msi c:\var\_tmp\b5888102-f3b3-4e8f-9335-226207c82290
+2020/03/12 14:25:28 upload finish : c:\var\files\2020-02-19\112233\332211\GGP SDK Installer.1.27.msi 3.0332412s
+2020/03/12 14:25:28 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:25:45 upload start : GGPSDKInstaller.1.24.0.7437.msi c:\var\_tmp\ce27b474-1db0-4e6e-914f-75a2bf98e259
+2020/03/12 14:25:47 upload finish : c:\var\files\2020-02-19\112233\332211\GGPSDKInstaller.1.24.0.7437.msi 2.4558735s
+2020/03/12 14:25:47 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:26:02 upload start : GGPSDKInstaller.1.26.msi c:\var\_tmp\3e59352a-d91f-4b80-a7ab-991146208011
+2020/03/12 14:26:04 upload finish : c:\var\files\2020-02-19\112233\332211\GGPSDKInstaller.1.26.msi 2.0785618s
+2020/03/12 14:26:04 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:26:18 upload start : android-studio-ide-182.5314842-windows.exe c:\var\_tmp\a8c341bf-c9c3-4d80-b7e0-8b6345352ee8
+2020/03/12 14:26:21 upload finish : c:\var\files\2020-02-19\112233\332211\android-studio-ide-182.5314842-windows.exe 2.8722425s
+2020/03/12 14:26:21 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:26:39 upload start : CentOS-7-x86_64-Minimal-1804.iso c:\var\_tmp\a052c069-20be-4db2-a548-069008dc4815
+2020/03/12 14:26:42 upload finish : c:\var\files\2020-02-19\112233\332211\CentOS-7-x86_64-Minimal-1804.iso 3.3804353s
+2020/03/12 14:26:43 new upload file ..1 2020-02-19\112233\332211
+2020/03/12 14:26:55 upload start : GGP SDK Installer.1.25.msi c:\var\_tmp\b28c4fe4-35d8-4cf9-a67a-afa183605e7e
+2020/03/12 14:26:57 upload finish : c:\var\files\2020-02-19\112233\332211\GGP SDK Installer.1.25.msi 1.86405s
+2020/03/12 14:26:57 new upload file ..1 2020-02-10\12333\333
+2020/03/12 14:27:04 upload start : Documents.zip c:\var\_tmp\55b9f31f-a5ab-4f81-96a6-620b38969c88
+2020/03/12 14:27:04 upload finish : c:\var\files\2020-02-10\12333\333\Documents.zip 179.8109ms
+2020/03/12 14:27:04 new upload file ..1 2020-02-10\12333\333
+2020/03/12 14:27:04 upload start : Queen-LoveOfMyLife.zip c:\var\_tmp\bd512d79-39eb-4be9-a833-51d71196540e
+2020/03/12 14:27:04 upload finish : c:\var\files\2020-02-10\12333\333\Queen-LoveOfMyLife.zip 2.0004ms
+2020/03/12 14:27:04 new upload file ..1 2020-02-10\12333
+2020/03/12 14:27:04 upload start : 4.1 - 433_DB표준스키마v2.3.4.xls c:\var\_tmp\9b095767-aed2-40a9-b911-4ce4bee0336d
+2020/03/12 14:27:04 upload finish : c:\var\files\2020-02-10\12333\4.1 - 433_DB표준스키마v2.3.4.xls 3.0186ms
+2020/03/12 14:27:04 new upload file ..1 2020-02-10\12333
+2020/03/12 14:27:04 upload start : 4.2 - 433_DB샤딩가이드_v1.0.pdf c:\var\_tmp\818817ea-414e-4ccc-a382-783ac50e98f1
+2020/03/12 14:27:04 upload finish : c:\var\files\2020-02-10\12333\4.2 - 433_DB샤딩가이드_v1.0.pdf 1.9981ms
+2020/03/12 14:27:04 new upload file ..1 2020-02-10\12333
+2020/03/12 14:27:05 upload start : 4.3 - 433_MySQL개발가이드_v2.2.3.pdf c:\var\_tmp\bc443103-328b-417f-a62f-c6515a69b3d7
+2020/03/12 14:27:05 upload finish : c:\var\files\2020-02-10\12333\4.3 - 433_MySQL개발가이드_v2.2.3.pdf 8.9727ms
+2020/03/12 14:27:05 new upload file ..1 2020-02-10\12333
+2020/03/12 14:27:05 upload start : 4.4 - 433_DB세부개발가이드v1.1.xls c:\var\_tmp\e9450b3c-b396-4248-977f-f2adcc3051f9
+2020/03/12 14:27:05 upload finish : c:\var\files\2020-02-10\12333\4.4 - 433_DB세부개발가이드v1.1.xls 2.0307ms
+2020/03/12 14:27:05 new upload file ..1 2020-02-10\12333
+2020/03/12 14:27:05 upload start : 1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf c:\var\_tmp\c1556829-cd67-48ff-b964-d95d697ad8b3
+2020/03/12 14:27:05 upload finish : c:\var\files\2020-02-10\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf 2.9748ms
+2020/03/12 14:27:05 new upload file ..1 2020-02-10\12333
+2020/03/12 14:27:05 upload start : 1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf c:\var\_tmp\5b2f259a-7a4a-4911-8f24-89613281695f
+2020/03/12 14:27:05 upload finish : c:\var\files\2020-02-10\12333\1. 2019 편리한 연말정산 마법사 사용 설명서 (2).pdf 7.9619ms
+2020/03/12 14:27:05 new upload file ..1 2020-02-10\12333
+2020/03/12 14:27:05 upload start : 1. 2019 편리한 연말정산 마법사 사용 설명서.pdf c:\var\_tmp\4d0dc4e0-ea7d-4ca3-aba9-9cd848d45aff
+2020/03/12 14:27:05 upload finish : c:\var\files\2020-02-10\12333\1. 2019 편리한 연말정산 마법사 사용 설명서.pdf 2.9973ms
+2020/03/12 14:29:11 dir is not exist c:\var\files\2020-03-03\testt\12333
+2020/03/12 14:29:11 new upload file ..1 2020-03-03\testt\12333
+2020/03/12 14:29:12 upload start : go1.13.5.linux-amd64.tar.gz c:\var\_tmp\e1ef19c2-8798-4731-8c98-499ab1d418f0
+2020/03/12 14:29:12 upload finish : c:\var\files\2020-03-03\testt\12333\go1.13.5.linux-amd64.tar.gz 67.0021ms
+2020/03/12 14:29:12 new upload file ..1 2020-03-03\testt\12333
+2020/03/12 14:29:14 upload start : go1.13.5.windows-amd64.msi c:\var\_tmp\01af2223-398a-4cd6-a4b4-3c472102f811
+2020/03/12 14:29:14 upload finish : c:\var\files\2020-03-03\testt\12333\go1.13.5.windows-amd64.msi 71.0867ms
+2020/03/12 14:30:32 dir is not exist c:\var\files\2020-01-20\112233\332211
+2020/03/12 14:30:32 new upload file ..1 2020-01-20\112233\332211
+2020/03/12 14:30:42 upload start : android-studio-ide-182.5314842-windows.exe c:\var\_tmp\e62305c8-931f-4413-a49b-2f7aa6d6a19b
+2020/03/12 14:30:46 upload finish : c:\var\files\2020-01-20\112233\332211\android-studio-ide-182.5314842-windows.exe 3.7875406s
+2020/03/12 14:37:41 dir is not exist c:\var\files\test\2020-03-03\testt\12333
+2020/03/12 14:37:41 new upload file ..1 test\2020-03-03\testt\12333
+2020/03/12 14:37:41 dir is not exist c:\var\files\test\2020-03-02\123231
+2020/03/12 14:37:42 upload start : go1.13.5.linux-amd64.tar.gz c:\var\_tmp\6dc8660a-7e8f-4d4f-ab09-bd79fd81bbd7
+2020/03/12 14:37:42 upload finish : c:\var\files\test\2020-03-03\testt\12333\go1.13.5.linux-amd64.tar.gz 68.0024ms
+2020/03/12 14:37:42 new upload file ..1 test\2020-03-03\testt\12333
+2020/03/12 14:37:44 upload start : go1.13.5.windows-amd64.msi c:\var\_tmp\4128d9c4-a635-43b3-b439-8c7969824b68
+2020/03/12 14:37:44 upload finish : c:\var\files\test\2020-03-03\testt\12333\go1.13.5.windows-amd64.msi 65.0309ms
+2020/03/12 14:37:44 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:44 upload start : MVIMG_20191213_142059.jpg c:\var\_tmp\66c9559a-3785-4df8-86fa-61d24b9d70bb
+2020/03/12 14:37:44 upload finish : c:\var\files\test\2020-03-02\123231\MVIMG_20191213_142059.jpg 2.9993ms
+2020/03/12 14:37:44 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:44 upload start : OrangeFox-R10.1_01-Stable-lavender.zip c:\var\_tmp\0adbc684-7237-4135-8f62-aac3d1217b2a
+2020/03/12 14:37:44 upload finish : c:\var\files\test\2020-03-02\123231\OrangeFox-R10.1_01-Stable-lavender.zip 29.0974ms
+2020/03/12 14:37:44 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:44 upload start : Windows10Upgrade9252 (2).exe c:\var\_tmp\9690ba8b-37e9-4e19-913a-647d1a78fd8e
+2020/03/12 14:37:44 upload finish : c:\var\files\test\2020-03-02\123231\Windows10Upgrade9252 (2).exe 4.9996ms
+2020/03/12 14:37:44 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:46 upload start : open_gapps-arm64-10.0-nano-20190928-BETA.zip c:\var\_tmp\8b7a74a8-608c-4370-9529-7b732c2b3d72
+2020/03/12 14:37:47 upload finish : c:\var\files\test\2020-03-02\123231\open_gapps-arm64-10.0-nano-20190928-BETA.zip 98.1131ms
+2020/03/12 14:37:47 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:47 upload start : 정진수_포트폴리오 (1).ZIP c:\var\_tmp\4a686cfc-0502-4c03-96c4-224804f2029e
+2020/03/12 14:37:47 upload finish : c:\var\files\test\2020-03-02\123231\정진수_포트폴리오 (1).ZIP 26.0008ms
+2020/03/12 14:37:47 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:49 upload start : 정진수_포트폴리오.ZIP c:\var\_tmp\697ef252-366d-452b-95d1-72af72bf6772
+2020/03/12 14:37:49 upload finish : c:\var\files\test\2020-03-02\123231\정진수_포트폴리오.ZIP 29.0115ms
+2020/03/12 14:37:49 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:49 upload start : 1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf c:\var\_tmp\6b931f07-382f-4792-8180-a55ea75ece67
+2020/03/12 14:37:49 upload finish : c:\var\files\test\2020-03-02\123231\1. 2019 편리한 연말정산 마법사 사용 설명서 (1).pdf 2.9989ms
+2020/03/12 14:37:49 new upload file ..1 test\2020-03-02\123231
+2020/03/12 14:37:49 upload start : 4. 스캔 및 출력 매뉴얼.pptx c:\var\_tmp\626fae7a-5b7b-4f6b-993b-d51f4d089236
+2020/03/12 14:37:49 upload finish : c:\var\files\test\2020-03-02\123231\4. 스캔 및 출력 매뉴얼.pptx 1.9968ms
+2020/03/12 14:38:14 dir is not exist c:\var\files\test\2020-02-19\112233\332211\333322221111
+2020/03/12 14:38:14 dir is not exist c:\var\files\test\2020-02-19\112233\332211
+2020/03/12 14:38:14 new upload file ..1 test\2020-02-19\112233\332211\333322221111
+2020/03/12 14:38:14 upload start : 3. 스캔 드라이버 설치 매뉴얼.pptx c:\var\_tmp\16aee984-cbc1-418d-b9ec-4fc030c1d62c
+2020/03/12 14:38:14 upload finish : c:\var\files\test\2020-02-19\112233\332211\333322221111\3. 스캔 드라이버 설치 매뉴얼.pptx 998µs
+2020/03/12 14:38:14 new upload file ..1 test\2020-02-19\112233\332211
+2020/03/12 14:38:14 dir is not exist c:\var\files\test\2020-02-10\12333\333
+2020/03/12 14:38:14 dir is not exist c:\var\files\test\2020-02-10\12333
+2020/03/12 14:38:15 dir is not exist c:\var\files\test\2020-01-20\112233\332211
+2020/03/12 14:38:20 not found form myFile read tcp [::1]:8081->[::1]:2151: wsarecv: An existing connection was forcibly closed by the remote host.

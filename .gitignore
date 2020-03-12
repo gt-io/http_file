@@ -14,3 +14,4 @@ client/state.txt
 server/tmp/conf.json
 server/tmp/runner-build.exe~
 
+server/server.log

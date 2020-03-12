@@ -53,7 +53,9 @@ func main() {
 
 	} else {
 		// start init folder exist file
-		checkExistFile(conf.Path)
+		if conf.Day > 0 {
+			checkExistFile(conf.Path, conf.Day)
+		}
 
 		// start watch folder()
 		watchFolder(conf.Path)

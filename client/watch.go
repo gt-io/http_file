@@ -6,27 +6,65 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
+	"sort"
 	"strings"
 	"time"
 
 	"github.com/rjeczalik/notify"
 )
 
-func checkExistFile(watchPath string) error {
-	log.Println("start exist file.", watchPath)
+var re = regexp.MustCompile("[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])")
+
+// 이 폴더 아래 디렉토리를 다 읽어서.
+// 디렉토리 형식이 YYYY-MM-DD 폴더라면.
+// 큰순서대로 정렬 후 checkDay 만큼만 확인하자.
+func checkExistFile(watchPath string, checkDay int) error {
+	log.Println("start exist dir.", watchPath, checkDay)
 	files, err := ioutil.ReadDir(watchPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// 만약 하위폴더가 날짜폴더라면..목록을 얻어오자.
+	var dirList []string
 	for _, file := range files {
-		if file.IsDir() {
-			checkExistFile(watchPath + string(os.PathSeparator) + file.Name())
-			checkUploadFiles(watchPath + string(os.PathSeparator) + file.Name())
+		if file.IsDir() && re.MatchString(file.Name()) {
+			dirList = append(dirList, file.Name())
 		}
 	}
 
-	log.Println("finish exist file.", watchPath)
+	if len(dirList) > 0 {
+		// 날짜폴더이므로 최근 폴더부터 checkDay 만큼 체크.
+		sort.Slice(dirList, func(i, j int) bool {
+			return dirList[i] > dirList[j]
+		})
+
+		log.Println("check dir", dirList)
+
+		cd := checkDay
+		for _, d := range dirList {
+			cd--
+
+			checkExistFile(watchPath+string(os.PathSeparator)+d, checkDay)
+			checkUploadFiles(watchPath + string(os.PathSeparator) + d)
+
+			if cd == 0 {
+				break
+			}
+		}
+
+	} else {
+		// 날짜폴더가 아니므로.. 예전처럼 그냥 디렉토리 체크.
+		for _, file := range files {
+			if file.IsDir() {
+				checkExistFile(watchPath+string(os.PathSeparator)+file.Name(), checkDay)
+				checkUploadFiles(watchPath + string(os.PathSeparator) + file.Name())
+			}
+		}
+	}
+
+	log.Println("finish exist dir.", watchPath)
 	return nil
 }
 
